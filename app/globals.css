@@ -18,8 +18,8 @@
   --color-muted: var(--muted);
   --color-accent-primary: var(--accent-primary);
   --color-accent-secondary: var(--accent-secondary);
-  --font-sans: var(--font-space-grotesk);
-  --font-mono: var(--font-jetbrains-mono);
+  --font-sans: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
 * {
@@ -37,7 +37,7 @@ body {
     radial-gradient(circle at 82% 78%, rgba(16, 185, 129, 0.1), transparent 30%),
     linear-gradient(180deg, #030303 0%, #000000 100%);
   color: var(--foreground);
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 }
 
 body::before {

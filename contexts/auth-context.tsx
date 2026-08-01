@@ -16,13 +16,9 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(() => (typeof window === "undefined" ? "" : authStorage.getToken()));
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    setToken(authStorage.getToken());
-  }, []);
 
   const login = useCallback((nextToken: string, nextUser: User) => {
     authStorage.setToken(nextToken);
