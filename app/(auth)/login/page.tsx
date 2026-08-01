@@ -14,8 +14,11 @@ import { authService } from "@/services/auth.service";
 import { toast } from "sonner";
 
 const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .refine((val) => val.includes("@") && val.includes("."), { message: "Invalid email format" }),
+  password: z.string().min(1, "Password is required"),
 });
 
 type LoginForm = z.infer<typeof schema>;
@@ -23,7 +26,13 @@ type LoginForm = z.infer<typeof schema>;
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({ resolver: zodResolver(schema) });
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      email: "a@b.c",
+      password: "12345678",
+    },
+  });
 
   const mutation = useMutation({
     mutationFn: authService.login,
@@ -35,7 +44,7 @@ export default function LoginPage() {
   });
 
   return (
-    <AuthCard title="Welcome back" subtitle="Log in to your AI business workspace.">
+    <AuthCard title="Welcome back" subtitle="Log in to your QuantStock workspace.">
       <form className="space-y-3" onSubmit={handleSubmit((values) => mutation.mutate(values))}>
         <div>
           <input {...register("email")} type="email" placeholder="Email" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm outline-none" />
@@ -47,9 +56,11 @@ export default function LoginPage() {
         </div>
         <GradientButton type="submit" className="w-full" loading={mutation.isPending}>Login</GradientButton>
       </form>
-      <div className="flex justify-between text-xs text-zinc-400">
-        <Link href="/forgot-password" className="hover:text-white">Forgot password?</Link>
-        <Link href="/register" className="hover:text-white">Create account</Link>
+      <div className="flex flex-col items-center gap-2 pt-2 text-xs text-zinc-400">
+        <div className="rounded-md bg-white/5 px-3 py-1.5 text-center text-zinc-300 border border-white/10">
+          Default Credentials: <span className="font-mono text-emerald-400">a@b.c</span> / <span className="font-mono text-emerald-400">12345678</span>
+        </div>
+        <Link href="/forgot-password" className="hover:text-white mt-1">Forgot password?</Link>
       </div>
     </AuthCard>
   );
