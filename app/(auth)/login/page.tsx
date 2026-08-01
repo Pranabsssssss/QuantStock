@@ -29,8 +29,8 @@ export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: "a@b.c",
-      password: "12345678",
+      email: "",
+      password: "",
     },
   });
 
@@ -56,11 +56,8 @@ export default function LoginPage() {
         </div>
         <GradientButton type="submit" className="w-full" loading={mutation.isPending}>Login</GradientButton>
       </form>
-      <div className="flex flex-col items-center gap-2 pt-2 text-xs text-zinc-400">
-        <div className="rounded-md bg-white/5 px-3 py-1.5 text-center text-zinc-300 border border-white/10">
-          Default Credentials: <span className="font-mono text-emerald-400">a@b.c</span> / <span className="font-mono text-emerald-400">12345678</span>
-        </div>
-        <Link href="/forgot-password" className="hover:text-white mt-1">Forgot password?</Link>
+      <div className="flex justify-end pt-2 text-xs text-zinc-400">
+        <Link href="/forgot-password" className="hover:text-white">Forgot password?</Link>
       </div>
     </AuthCard>
   );

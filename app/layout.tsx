@@ -5,6 +5,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "QuantStock",
   description: "AI Business Operating System",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
